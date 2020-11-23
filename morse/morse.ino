@@ -1,36 +1,37 @@
 // morse code a-z
 String morseCodes[26] = {
-".-", //a
-"-...", 
-"-.-.", 
-"-..", 
-".", 
-"..-.", 
-"--.", 
-"....", 
-"..", 
-".---", 
-"-.-",
-".-..",
-"--",
-"-.",
-"---",
-".--.",
-"--.-",
-".-.",
-"...",
-"-",
-"..-",
-"...-",
-".--",
-"-..-",
-"-.--",
-"--.."}; // z
+  ".-", //a
+  "-...",
+  "-.-.",
+  "-..",
+  ".",
+  "..-.",
+  "--.",
+  "....",
+  "..",
+  ".---",
+  "-.-",
+  ".-..",
+  "--",
+  "-.",
+  "---",
+  ".--.",
+  "--.-",
+  ".-.",
+  "...",
+  "-",
+  "..-",
+  "...-",
+  ".--",
+  "-..-",
+  "-.--",
+  "--.."
+}; // z
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(2, OUTPUT);
 }
 
 
@@ -38,6 +39,7 @@ void loop() {
   if (Serial.available()) {
 
     char key = Serial.read();
+    Serial.println(key);
     key = (int) key - 97; // 0 based abc,,,
 
     morseChar(morseCodes[key]);
@@ -45,18 +47,20 @@ void loop() {
 }
 
 void morseChar(String str) {
-  int signalLengths[] = {400, 800}; // short / long morse
-  int lightFor = 0;
+  int shortSignal = 400; //milisecs to blink
+  int longSignal = 800;
   for (int i = 0; i < str.length(); i++) {
     if (str[i] == '.') {
-      lightFor = signalLengths[0];
+      blinkLed(shortSignal);
     } else {
-      lightFor = signalLengths[1];
+      blinkLed(longSignal);
     }
-
-    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delay(lightFor);                   // wait for a second
-    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-    delay(200);                       // wait for a second
   }
+}
+
+void blinkLed(int miliseconds) {
+  digitalWrite(2, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(miliseconds);                   // wait for a second
+  digitalWrite(2, LOW);    // turn the LED off by making the voltage LOW
+  delay(200);                       // wait for a second
 }
