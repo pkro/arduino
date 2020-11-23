@@ -31,10 +31,11 @@ void loop() {
 }
 
 void notify(char state) {
-  char *msg = "Led was turned ";
-  char *cr = "\r\n";
-  //msg.concat((state == '0' ? "off" : "on"));
-  //msg.concat(cr);
+  String msg = "Led was turned ";
+  String cr = "\r\n";
   
-  Serial.write(msg, sizeof(msg));
+  msg = msg + (state == '0' ? "off" : "on");
+  msg = msg + cr;
+  
+  Serial.print(msg);
 }
